@@ -15,10 +15,13 @@ class BasicAPI(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(data).encode())
 
     def do_GET(self):
-        self.send_data(data)
-
+        if self.path=="/":
+            self.send_data(data)
+         try:
+            if self.path.strip
 def run():
     HTTPServer(('localhost', 8000),BasicAPI).serve_forever()
 
-print("Application is running")
+print("The App hit the ground an running 🏃‍♀️‍➡️🏃‍♀️‍➡️🏃‍♀️‍➡️")
+
 run()

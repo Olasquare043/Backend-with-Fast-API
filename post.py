@@ -14,7 +14,6 @@ class BasicAPI(BaseHTTPRequestHandler):
         parse_data= self.rfile.read(content_size)
         post_data = json.loads(parse_data)
         data.append(post_data)
-
         self.send_data({
         "Message": "Data Received",
         "data": post_data
@@ -22,5 +21,5 @@ class BasicAPI(BaseHTTPRequestHandler):
 
 def run():
      HTTPServer(('localhost', 8000),BasicAPI).serve_forever()
-print("The Application is running")
+print("The App hit the ground an running 🏃‍♀️‍➡️🏃‍♀️‍➡️🏃‍♀️‍➡️")
 run()
