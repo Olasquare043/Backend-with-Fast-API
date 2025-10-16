@@ -2,7 +2,13 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 import os
 
-data_file_path= "data."
+data_file_path= "database.json" #path to the json data file
+# loading the file
+def load_data():
+    if not os.path.exists(data_file_path):
+        return []
+    with open(data_file_path) as f:
+        json.loads(f)
 
 class GetAPI(BaseHTTPRequestHandler):
     def send_data(self, data, status=200):
@@ -12,6 +18,7 @@ class GetAPI(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(data).encode())
 
     def do_GET(self):
+        data= load_data() # loading the data from external json file
         if self.path=="/":
            return self.send_data(data)
         try:
