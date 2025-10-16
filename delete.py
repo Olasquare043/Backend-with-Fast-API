@@ -33,8 +33,8 @@ class deleteAPI(BaseHTTPRequestHandler):
             if id == item["id"]:
                 data.remove(item)
                 return self.send_data({"message":"Record deleted", "data": data}, status=200)
-            else:
-                return self.send_data({"message":"Record not found"}, status=400)
+            
+        # if loop finish and no record
         return self.send_data({"message":"Record not found"}, status=404)
 def run():
     return HTTPServer(("localhost", 5000), deleteAPI).serve_forever()
