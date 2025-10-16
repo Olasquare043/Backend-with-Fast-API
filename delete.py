@@ -23,23 +23,19 @@ class deleteAPI(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(json.dumps(payload).encode())
 
-    def do_DELETE(self):
-        content_size= int(self.headers.get("Content-Length", 0))
-        parse_data= self.rfile.read(content_size)
-        updated_data= json.loads(parse_data)
-        if self.path=="/":
-            return self.send_data({"message":"Content to change can not be empty"}, status=400)  
-        # get the index of item from the specified route id
-        id= int(self.path.split("/"))
-        if updated_data:
-            for item in data:
-                if id == item["id"]:
-                    data.update(updated_data)
-                    return self.send_data({"message":"Record updated"}, status=200)
-                else:
-                    return self.send_data({"message":"Record not found"}, status=400)
-        else: 
-            return self.send_data({"message":"Content to change can not be empty"}, status=400)
+    def do_DELETE(self):       
+        try:
+           id= int(self.path.strip("/"))  # get the id of item from the url path
+        except ValueError:
+            return self.send_data({f"message":"Invalid ID:"},status=400)
+
+        for item in data:
+            if id == item["id"]:
+                data.remove(item)
+                return self.send_data({"message":"Record deleted", "data": data}, status=200)
+            else:
+                return self.send_data({"message":"Record not found"}, status=400)
+        return self.send_data({"message":"Record not found"}, status=404)
 def run():
     return HTTPServer(("localhost", 5000), deleteAPI).serve_forever()
 
