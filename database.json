@@ -1,4 +1,14 @@
 [
-    {"id": 1, "name": "Olayemi", "email": "olasquare@gmail.com", "password": "hfjghgfsf"},
-    {"id": 2, "name": "Olayinka", "email": "olas@gmail.com", "password": "hkkhsf"}
+  {
+    "id": 1,
+    "name": "Adeola",
+    "email": "ola@gmail.com",
+    "password": "hfddsjghgfsf"
+  },
+  {
+    "id": 2,
+    "name": "Ibraheem",
+    "email": "ib@gmail.com",
+    "password": "hkkhkflfdsf"
+  }
 ]

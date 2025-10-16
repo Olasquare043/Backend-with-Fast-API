@@ -1,9 +1,26 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-data = [
-    {"id": 1, "name": "Olayemi", "email": "olasquare@gmail.com", "kghhgds": "hfjghgfsf"},
-    {"id": 2, "name": "Olayinka", "email": "olas@gmail.com", "kghhgds": "hkkhsf"}
-]
+import os
+
+file_path = "database.json"
+
+# function to load data from file
+
+def load_data():
+    if not os.path.exists(file_path):
+        return []
+    with open(file_path, "r") as f:
+        return json.load(f)
+    
+def save_to_db(data_to_update):
+    if data_to_update:
+        with open(file_path, "w") as f:
+            json.dump(data_to_update, f, indent=2)
+            return True
+    else:
+        return False
+
+
 
 class PutAPI(BaseHTTPRequestHandler):
     def send_data(self,payload,status):
@@ -13,6 +30,9 @@ class PutAPI(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(payload).encode())
 
     def do_PUT(self):
+        # load data from file
+        data = load_data()
+
         # getting ID from url path
         try:
             id=int(self.path.strip("/"))
@@ -27,6 +47,7 @@ class PutAPI(BaseHTTPRequestHandler):
         for item in data:
             if item["id"]== id:
                 item.update(data_to_update)
+                save_to_db(data)
                 return self.send_data({"message":"Record updated", "data": item}, status=200)
             
         # if loop finish and no record
@@ -34,5 +55,6 @@ class PutAPI(BaseHTTPRequestHandler):
 def run():
     return HTTPServer(("localhost",5000), PutAPI).serve_forever()
 
-print("The App hit the ground an running 🏃‍♀️‍➡️ 🏃‍♀️‍➡️ on port 5000 🏃‍♀️‍➡️")
-run()
+if __name__ == "__main__":
+    print("The App hit the ground and running 🏃‍♀️‍➡️ on port 5000 🏃‍♀️‍➡️")
+    run()
