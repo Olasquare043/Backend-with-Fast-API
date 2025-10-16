@@ -12,6 +12,7 @@ def load_data():
     with open(file_path, "r") as f:
         return json.load(f)
     
+# function to save to file 
 def save_to_db(data_to_update):
     if data_to_update:
         with open(file_path, "w") as f:
@@ -47,9 +48,12 @@ class PutAPI(BaseHTTPRequestHandler):
         for item in data:
             if item["id"]== id:
                 item.update(data_to_update)
-                save_to_db(data)
-                return self.send_data({"message":"Record updated", "data": item}, status=200)
-            
+                
+                if save_to_db(data):
+                    return self.send_data({"message":"Record updated", "data": item}, status=200)
+                else:
+                    return self.send_data({"message":"Failed to save data"}, status=404)
+
         # if loop finish and no record
         return self.send_data({"message":"Record not found"}, status=404)
 def run():
