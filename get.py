@@ -1,20 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+import os
 
-data=[
-    {
-    "id": 1,
-    "name": "Olayemi",
-    "email": "olasquare@gmail.com",
-    "kghhgds": "hfjghgfsf"  
-},
-{
-    "id": 2,
-    "name": "Olayinka",
-    "email": "olas@gmail.com",
-    "kghhgds": "hkkhsf"
-}
-]
+data_file_path= "data."
+
 class GetAPI(BaseHTTPRequestHandler):
     def send_data(self, data, status=200):
         self.send_response(status)
@@ -24,12 +13,19 @@ class GetAPI(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path=="/":
-            self.send_data(data)
-         try:
-            if self.path.strip
+           return self.send_data(data)
+        try:
+            id= int(self.path.strip("/"))
+        except ValueError:
+            return self.send_data({"message":f"Invalid ID: {id}"}, status=400)
+        # finding the actual record with the ID
+        for item in data:
+            if id==item["id"]:
+                return self.send_data({"message":"Here is the record:", "data":item})
+        # if loop finish and no record
+        return self.send_data({"message":"Record not found"}, status=404)
 def run():
-    HTTPServer(('localhost', 8000),BasicAPI).serve_forever()
-
-print("The App hit the ground an running 🏃‍♀️‍➡️🏃‍♀️‍➡️🏃‍♀️‍➡️")
-
-run()
+    HTTPServer(('localhost', 5000),GetAPI).serve_forever()
+if __name__ == "__main__":
+    print("The App hit the ground an running 🏃‍♀️‍➡️ 🏃‍♀️‍➡️ on port 5000 🏃‍♀️‍➡️")
+    run()

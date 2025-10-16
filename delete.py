@@ -1,20 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
-data=[
-    {
-    "id": 1,
-    "name": "Olayemi",
-    "email": "olasquare@gmail.com",
-    "kghhgds": "hfjghgfsf"  
-},
-{
-    "id": 2,
-    "name": "Olayinka",
-    "email": "olas@gmail.com",
-    "kghhgds": "hkkhsf"
-}
-]
 # creating class
 class deleteAPI(BaseHTTPRequestHandler):
     def send_data(self, payload, status):
