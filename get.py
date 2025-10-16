@@ -8,7 +8,7 @@ def load_data():
     if not os.path.exists(data_file_path):
         return []
     with open(data_file_path) as f:
-        json.loads(f)
+        return json.load(f)
 
 class GetAPI(BaseHTTPRequestHandler):
     def send_data(self, data, status=200):
