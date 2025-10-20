@@ -3,3 +3,6 @@ pydantic
 uvicorn
 dotenv
 env
+SQLAlchemy
+pymysql
+pandas

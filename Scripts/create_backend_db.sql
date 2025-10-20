@@ -1,0 +1,63 @@
+create database if not exists backend_db;
+use backend_db;
+CREATE TABLE user(
+id int AUTO_INCREMENT PRIMARY KEY, 
+name VARCHAR(255) not null,
+email varchar(255) not null,
+password varchar(255) not null
+);
+
+INSERT INTO user (name, email, password)
+VALUES
+("Saheed Olayemi", "ola@gmail.com", "Ola123"),
+("Olayemi Olayinka", "yemi@gmail.com", "yemi123"),
+("Michael Adeyemi", "michael.adeyemi@gmail.com", "mike123"),
+("Aisha Bello", "aisha.bello@gmail.com", "aisha123"),
+("Tunde Bakare", "tunde.bakare@gmail.com", "tunde123"),
+("Chinedu Okafor", "chinedu.okafor@gmail.com", "chinedu123"),
+("Ngozi Nwosu", "ngozi.nwosu@gmail.com", "ngozi123"),
+("Ibrahim Musa", "ibrahim.musa@gmail.com", "ibrahim123"),
+("Fatima Sanni", "fatima.sanni@gmail.com", "fatima123"),
+("Kunle Adebayo", "kunle.adebayo@gmail.com", "kunle123"),
+("Grace Johnson", "grace.johnson@gmail.com", "grace123"),
+("Samuel Peters", "samuel.peters@gmail.com", "samuel123"),
+("Joy Uche", "joy.uche@gmail.com", "joy123"),
+("Emeka Nnamdi", "emeka.nnamdi@gmail.com", "emeka123"),
+("Hauwa Suleiman", "hauwa.suleiman@gmail.com", "hauwa123"),
+("David Mark", "david.mark@gmail.com", "david123"),
+("Blessing Eze", "blessing.eze@gmail.com", "blessing123"),
+("Oluwaseun Adeola", "seun.adeola@gmail.com", "seun123"),
+("Chika Obi", "chika.obi@gmail.com", "chika123"),
+("Maryam Abdullahi", "maryam.abdullahi@gmail.com", "maryam123"),
+("John Paul", "john.paul@gmail.com", "john123"),
+("Esther James", "esther.james@gmail.com", "esther123"),
+("Collins Udo", "collins.udo@gmail.com", "collins123"),
+("Ruth Akinola", "ruth.akinola@gmail.com", "ruth123"),
+("Bola Shittu", "bola.shittu@gmail.com", "bola123"),
+("Chisom Nweke", "chisom.nweke@gmail.com", "chisom123"),
+("Ifeanyi Okeke", "ifeanyi.okeke@gmail.com", "ifeanyi123"),
+("Patience Yakubu", "patience.yakubu@gmail.com", "patience123"),
+("Opeyemi Lawal", "opeyemi.lawal@gmail.com", "opeyemi123"),
+("Kemi Alabi", "kemi.alabi@gmail.com", "kemi123"),
+("Gbenga Ajayi", "gbenga.ajayi@gmail.com", "gbenga123"),
+("Amaka Eze", "amaka.eze@gmail.com", "amaka123"),
+("Suleiman Danjuma", "suleiman.danjuma@gmail.com", "suleiman123"),
+("Victoria Adebanjo", "victoria.adebanjo@gmail.com", "victoria123"),
+("Henry Okon", "henry.okon@gmail.com", "henry123"),
+("Olamide Afolabi", "olamide.afolabi@gmail.com", "olamide123"),
+("Chinyere Umeh", "chinyere.umeh@gmail.com", "chinyere123"),
+("Ishaq Abdulkareem", "ishaq.abdulkareem@gmail.com", "ishaq123"),
+("Janet Ojo", "janet.ojo@gmail.com", "janet123"),
+("Raphael Adekunle", "raphael.adekunle@gmail.com", "raphael123"),
+("Hadiza Mohammed", "hadiza.mohammed@gmail.com", "hadiza123"),
+("Peter Obioma", "peter.obioma@gmail.com", "peter123"),
+("Sarah Yusuf", "sarah.yusuf@gmail.com", "sarah123"),
+("Daniel Okonjo", "daniel.okonjo@gmail.com", "daniel123"),
+("Mariam Tijani", "mariam.tijani@gmail.com", "mariam123"),
+("Felix Omotayo", "felix.omotayo@gmail.com", "felix123"),
+("Gloria Nwachukwu", "gloria.nwachukwu@gmail.com", "gloria123"),
+("Ijeoma Anya", "ijeoma.anya@gmail.com", "ijeoma123"),
+("Mustapha Aliyu", "mustapha.aliyu@gmail.com", "mustapha123"),
+("Precious Adeyeye", "precious.adeyeye@gmail.com", "precious123");
+
+select * from user;
