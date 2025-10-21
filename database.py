@@ -13,9 +13,38 @@ engine=create_engine(db_url)
 session=sessionmaker(bind=engine)
 db=session()
 
-query=text("SELECT * FROM user")
-db_users= db.execute(query).fetchall()
-user_df= pd.DataFrame(db_users)
-user_df
-# for user in user_df:
-#     print(f'{user["id"]}      {user["name"]}      {"email"}')
+# create table to our database (backend_db)
+
+# create_users= text("""
+# CREATE TABLE IF NOT EXIST users(
+#     id int AUTO_INCREMENT PRIMARY KEY, 
+#     name VARCHAR(100) not null,
+#     email varchar(100) not null,
+#     password varchar(100) not null
+#                         );
+
+# """)
+
+# create_courses= text("""
+# CREATE TABLE IF NOT EXIST courses(
+#     id int AUTO_INCREMENT PRIMARY KEY, 
+#     title VARCHAR(100) NOT NULL,
+#     level VARCHAR(100) NOT NULL
+#                         );
+
+# """)
+
+# create_enrollment=("""          
+# CREATE TABLE IF NOT EXIST enrollments(
+#     id int AUTO_INCREMENT PRIMARY KEY,
+#     userId INT,
+#     courseId INT,
+#     FOREIGN KEY (userId) REFERENCES users(id),                     
+#     FOREIGN KEY (courseId) REFERENCES courses(id)                     
+#                         );
+# """)
+
+# db.execute(create_users)
+# db.execute(create_courses)
+# db.execute(create_enrollment)
+# print("Tables created successfully")
