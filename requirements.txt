@@ -8,3 +8,4 @@ pymysql
 pandas
 cryptography
 bcrypt
+psycopg2-binary

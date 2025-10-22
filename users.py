@@ -49,6 +49,7 @@ def signUp(input:simple):
         db.commit()
         return {"Message": "User created sucessfuly", "data":{"name":input.name, "email":input.email}}
     except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=500, detail=e)
 
 # load used details
@@ -61,8 +62,9 @@ def get_userdata(id:int):
         if db_user:
            return{"message":"Record fetch successfilly" ,"data":db_user}
     except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=400, detail=e)
     
-if __name__=="__main__":
-     uvicorn.run(app,host=os.getenv("host"), port=int(os.getenv("port")))
+# if __name__=="__main__":
+#      uvicorn.run(app,host=os.getenv("host"), port=int(os.getenv("port")))
 
