@@ -9,3 +9,5 @@ pandas
 cryptography
 bcrypt
 psycopg2-binary
+PyJWT
+alembic
