@@ -26,7 +26,7 @@ class RegDetails(BaseModel):
 # model for login
 class LoginRequest(BaseModel):
     email: str = Field(..., example="abo@gmail.com")
-    password: str = Field(..., example="abo123")
+    password: str = Field(..., example="abo121")
 
 # model for create course
 class Course_details(BaseModel):
@@ -97,7 +97,7 @@ def login(input: LoginRequest):
         encoded_token= create_token(details={
             "id": result.id,
             "email":result.email,
-            "userTpye": result.userType
+            "userType": result.userType
         
             }, expiry=token_time)
         return{"message":"login Successful", "token": encoded_token, "UserType": result.userType}
@@ -110,9 +110,8 @@ def login(input: LoginRequest):
 def addcourse(input:Course_details, user_data = Depends(verify_token)):
     try:
         print(user_data)
-        # if user_data["userType"] != "admin":
-        #     raise HTTPException(status_code=401, detail="Your are not authorized to add a course")
-
+        if user_data["userType"] != "admin":
+            raise HTTPException(status_code=401, detail=f"Your are not authorized to add a course")
         query= text("""INSERT INTO courses (title, level) VALUES(:title, :level)""")
         db.execute(query,{"title":input.title, "level":input.level})
         db.commit()
@@ -130,8 +129,8 @@ class courseInput(BaseModel):
 @app.post("/enroll")
 def enroll(input:courseInput, user_data = Depends(verify_token)):
     try:
-        # if user_data["userType"] != "student":
-        #     raise HTTPException(status_code=401, detail={"message":"Your are not authorized to enroll for a course you must be a student", "data":user_data})
+        if user_data["userType"] != "student":
+            raise HTTPException(status_code=401, detail={"message":"Your are not authorized to enroll for a course you must be a student"})
         query= text("""INSERT INTO enrollments (userId,courseId) VALUES(:userId, :courseId)""")
         db.execute(query,{"userId":user_data["id"], "courseId":input.courseId})
         db.commit()
