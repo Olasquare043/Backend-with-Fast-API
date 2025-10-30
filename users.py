@@ -14,24 +14,25 @@ load_dotenv()
 app=FastAPI(title="Simple App", version="1.0.0")
 
 token_time=int(os.getenv("token_time"))
-               
+
+#model for signup    
 class RegDetails(BaseModel):
     name: str = Field(..., example= "Saheed Olayemi")
-    email: str= Field(..., example= "ola@gmail.com")
-    password: str=Field(..., example= "ola121")
+    email: str = Field(..., example= "ola@gmail.com")
+    password: str =Field(..., example= "ola121")
     userType: str = Field(..., example="student")
-    gender: str= Field(..., examples="male" )
-class LoginRequest(BaseModel):
-    email: str = Field(..., example="ola@gmail.com")
-    password: str = Field(..., example="ola124")
+    gender: str = Field(..., example="male" )
 
+# model for login
+class LoginRequest(BaseModel):
+    email: str = Field(..., example="abo@gmail.com")
+    password: str = Field(..., example="abo123")
+
+# model for create course
 class Course_details(BaseModel):
     title: str= Field(..., example="Computer operation")
     level: str= Field(..., example="300 level")
 
-class logindetail(BaseModel):
-    email: str= Field(..., example= "ola@gmail.com")
-    password: str=Field(..., example= "ola121")
 
 @app.get("/")
 def root():
@@ -41,7 +42,7 @@ def root():
 def signUp(input:RegDetails):
     try:
         duplicate_query=text(""" SELECT * FROM users WHERE email=:email """)
-        existing=db.execute(duplicate_query,{"email":input.email})
+        existing=db.execute(duplicate_query,{"email":input.email}).fetchone()
         if existing:
             # print("Email already exist")
             raise HTTPException(status_code=400, detail="Email already exist")
@@ -60,7 +61,7 @@ def signUp(input:RegDetails):
         db.commit()
         return {"Message": "User created sucessfuly", "data":{"name":input.name, "email":input.email,"userType":input.userType }}
     except Exception as e:
-        # db.rollback()
+        db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 
 # load user details my version
@@ -94,10 +95,12 @@ def login(input: LoginRequest):
             raise HTTPException(status_code=401, detail="Invalid email or password")
         
         encoded_token= create_token(details={
+            "id": result.id,
             "email":result.email,
             "userTpye": result.userType
+        
             }, expiry=token_time)
-        return{"message":"login Successful", "token": encoded_token}
+        return{"message":"login Successful", "token": encoded_token, "UserType": result.userType}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -107,15 +110,35 @@ def login(input: LoginRequest):
 def addcourse(input:Course_details, user_data = Depends(verify_token)):
     try:
         print(user_data)
-        if user_data.userType!="admin":
-            raise HTTPException(status_code=401, detail="Your are not authorized to add a course")
+        # if user_data["userType"] != "admin":
+        #     raise HTTPException(status_code=401, detail="Your are not authorized to add a course")
 
-        query= text("""INSERT INTO course (title, level) VALUES(:title, :level)""")
+        query= text("""INSERT INTO courses (title, level) VALUES(:title, :level)""")
         db.execute(query,{"title":input.title, "level":input.level})
         db.commit()
         return {"Message": "Course created sucessfuly", "data":{"title":input.title, "level":input.level }}
     except Exception as e:
          raise HTTPException(status_code=500, detail=str(e))
+    
+
+
+# model for the course
+class courseInput(BaseModel):
+    courseId: int = Field(..., example="2")
+
+# enroll endpoint   
+@app.post("/enroll")
+def enroll(input:courseInput, user_data = Depends(verify_token)):
+    try:
+        # if user_data["userType"] != "student":
+        #     raise HTTPException(status_code=401, detail={"message":"Your are not authorized to enroll for a course you must be a student", "data":user_data})
+        query= text("""INSERT INTO enrollments (userId,courseId) VALUES(:userId, :courseId)""")
+        db.execute(query,{"userId":user_data["id"], "courseId":input.courseId})
+        db.commit()
+        return {"Message": "Course enroll sucessfuly, with ID:", "data":{"title":input.courseId }}
+
+    except Exception as e:
+         raise HTTPException(status_code=500, detail=str(e)) 
 
 if __name__=="__main__":
     uvicorn.run(app,host=os.getenv("host"), port=int(os.getenv("port")))
